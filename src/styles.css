@@ -1,0 +1,63 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.container {
+  position: relative;
+  height: 208px;
+  width: 240px;
+  /* background-color: #f0f0f0; */
+}
+
+.board {
+  position: absolute;
+  bottom: 0px;
+  right: 32px;
+  display: inline-grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.button {
+  font-family: "Fredoka", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: #333;
+  height: 40px;
+  width: 40px;
+  margin: 8px;
+  border: none;
+  background-color: #ffe17d;
+  border-radius: 6px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.button:hover {
+  background-color: #ffe695;
+  box-shadow: 0px 8px 12px #cfb6621a;
+  transform: translateY(-3px) scale(1.1);
+  transition: translateY 0.3s ease-in-out, scale 0.3s ease-in-out;
+}
+/* TODO: Make a sliced button to show which choices the user made */
+.sliceButton {
+}
+
+.topSliceButtons {
+  width: 100%;
+  height: 40px;
+  align-items: center;
+  display: flex;
+  align-items: start;
+  gap: 15px;
+  justify-content: center;
+}
+
+.leftSliceButtons {
+  width: 40px;
+  height: calc(100% - 40px);
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 24px;
+  justify-content: center;
+}
