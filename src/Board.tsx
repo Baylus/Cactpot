@@ -79,11 +79,11 @@ function calculateScore(boardValues: number[], slice: number): number {
   let sliceValues: number[] = chosenSquares.map(mapBoardValue);
   let sliceSum: number = sliceValues.reduce((x, y) => x + y);
 
-  console.log("Our slice sum is: " + sliceSum);
+  // console.log("Our slice sum is: " + sliceSum);
   // We have to subtract 6 from the sum, since thats the minimum score you can achieve, and where the score array begins
   score = scoreValues[sliceSum - 6];
 
-  console.log("Our score is: " + score);
+  // console.log("Our score is: " + score);
   if (score === undefined) {
     console.log("We have a bad error, traiging score issue");
     console.log("chosen sqaures: " + chosenSquares);
@@ -96,22 +96,33 @@ function calculateScore(boardValues: number[], slice: number): number {
 
 // TODO: Extract this stuff into a board class and make this class represent the whole game, so that the user can keep replaying the game.
 
-export default function Board(props: { boardValues: number[] }) {
+export default function Board(props: {
+  boardValues: number[];
+  logScore: Function;
+  playing: boolean;
+  finishPlaying: Function;
+}) {
   // List of choices the player has made by index of square
   // The choices that the player has made don't matter, but
   // we use it to disable the buttons to prevent the player
   // from choosing more than 3, so this can be simplified
   const [choices, setChoices] = useState([] as number[]);
-  const [playing, setPlaying] = useState(true as boolean);
+  // const [playing, setPlaying] = useState(true as boolean);
   const [score, setScore] = useState(0 as number);
+  const [boardValues, setBoardValues] = useState(props.boardValues as number[]);
   // Lets use the choices to manage a revealed array to make it easier to reveal the buttons
   //
   // This is currently for the purpose of revealing the first
   // button easier, as well as making all the buttons visible
   // after game is over. This maybe could be done easier, but for now we use this
-  let initRev: boolean[] = Array(9).fill(false);
-  initRev.splice(Math.round(Math.random() * 8), 1, true);
-  const [revealed, setRevealed] = useState(initRev);
+
+  const initRevealed = () => {
+    let initRev: boolean[] = Array(9).fill(false);
+    initRev.splice(Math.round(Math.random() * 8), 1, true);
+    return initRev;
+  };
+
+  const [revealed, setRevealed] = useState(initRevealed());
   // Easy revealed update
   const revealButton = (index: number) => {
     let newRevealed: boolean[] = revealed;
@@ -131,10 +142,42 @@ export default function Board(props: { boardValues: number[] }) {
   const chooseSlice = (slice: number) => {
     setScore(calculateScore(props.boardValues, slice));
     // TEST: Remove while testing
-    setPlaying(false);
+    // setPlaying(false);
+    props.finishPlaying();
     // Update all the buttons to reveal themselves
     setRevealed(Array(9).fill(true));
   };
+
+  // Perform some cleaning from the restart
+  // if (props.restart) {
+  //   console.log("Board is cleaning itself");
+  //   setChoices([]);
+  //   setPlaying(true);
+  //   setRevealed(initRevealed());
+  //   setBoardValues(props.boardValues);
+  //   setScore(0);
+  //   props.restart = false;
+  // }
+
+  useEffect(() => {
+    console.log("boardValues have been updated");
+  }, [boardValues]);
+
+  useEffect(() => {
+    console.log("Adding new score(" + score + ") to high scores");
+    if (score) {
+      props.logScore(score);
+    }
+  }, [score]);
+
+  useEffect(() => {
+    // console.log("props boardValues have been updated");
+    setChoices([]);
+    // setPlaying(true);
+    setRevealed(initRevealed());
+    setBoardValues(props.boardValues);
+    setScore(0);
+  }, [props.boardValues]);
 
   // Possibly use this to remove repeating code. Wont
   // be as useful for top slice button bar, since we
@@ -155,31 +198,31 @@ export default function Board(props: { boardValues: number[] }) {
           direction={"down right"}
           onClick={chooseSlice}
           sliceIndex={1}
-          disabled={!playing}
+          disabled={!props.playing}
         />
         <ArrowButton
           direction={"down"}
           onClick={chooseSlice}
           sliceIndex={2}
-          disabled={!playing}
+          disabled={!props.playing}
         />
         <ArrowButton
           direction={"down"}
           onClick={chooseSlice}
           sliceIndex={3}
-          disabled={!playing}
+          disabled={!props.playing}
         />
         <ArrowButton
           direction={"down"}
           onClick={chooseSlice}
           sliceIndex={4}
-          disabled={!playing}
+          disabled={!props.playing}
         />
         <ArrowButton
           direction={"down left"}
           onClick={chooseSlice}
           sliceIndex={5}
-          disabled={!playing}
+          disabled={!props.playing}
         />
       </div>
       <div className={"leftSliceButtons"}>
@@ -187,23 +230,23 @@ export default function Board(props: { boardValues: number[] }) {
           direction={"right"}
           onClick={chooseSlice}
           sliceIndex={6}
-          disabled={!playing}
+          disabled={!props.playing}
         />
         <ArrowButton
           direction={"right"}
           onClick={chooseSlice}
           sliceIndex={7}
-          disabled={!playing}
+          disabled={!props.playing}
         />
         <ArrowButton
           direction={"right"}
           onClick={chooseSlice}
           sliceIndex={8}
-          disabled={!playing}
+          disabled={!props.playing}
         />
       </div>
       <div className={"board"}>
-        {props.boardValues.map((value, index) => {
+        {boardValues.map((value, index) => {
           return (
             <Button
               addChoice={addChoice}
@@ -216,11 +259,13 @@ export default function Board(props: { boardValues: number[] }) {
           );
         })}
       </div>
-      <div>{!playing ? "Your score: " + score : null}</div>
+      <div>{!props.playing ? "Your score: " + score : null}</div>
     </div>
   );
 }
 
 Board.defaultProps = {
-  boardValues: []
+  boardValues: [],
+  restart: false,
+  playing: true
 };
