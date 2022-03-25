@@ -141,23 +141,10 @@ export default function Board(props: {
 
   const chooseSlice = (slice: number) => {
     setScore(calculateScore(props.boardValues, slice));
-    // TEST: Remove while testing
-    // setPlaying(false);
     props.finishPlaying();
     // Update all the buttons to reveal themselves
     setRevealed(Array(9).fill(true));
   };
-
-  // Perform some cleaning from the restart
-  // if (props.restart) {
-  //   console.log("Board is cleaning itself");
-  //   setChoices([]);
-  //   setPlaying(true);
-  //   setRevealed(initRevealed());
-  //   setBoardValues(props.boardValues);
-  //   setScore(0);
-  //   props.restart = false;
-  // }
 
   useEffect(() => {
     console.log("boardValues have been updated");
@@ -192,7 +179,7 @@ export default function Board(props: {
   // let sliceIndex = 1;
 
   return (
-    <div className={"container"}>
+    <div className={"board"}>
       <div className={"topSliceButtons"}>
         <ArrowButton
           direction={"down right"}
@@ -245,7 +232,7 @@ export default function Board(props: {
           disabled={!props.playing}
         />
       </div>
-      <div className={"board"}>
+      <div className={"smallBoard"}>
         {boardValues.map((value, index) => {
           return (
             <Button
@@ -266,6 +253,5 @@ export default function Board(props: {
 
 Board.defaultProps = {
   boardValues: [],
-  restart: false,
   playing: true
 };

@@ -19,13 +19,13 @@ export default function ArrowButton(props: {
   const whichButton = () => {
     switch (props.direction) {
       case "down":
-        return <ArrowDown size={24} color={"#555"} />;
+        return <ArrowDown className={"sliceButton"} size={27} />;
       case "right":
-        return <ArrowRight size={24} color={"#555"} />;
+        return <ArrowRight className={"sliceButton"} size={25} />;
       case "down right":
-        return <ArrowDownRight size={24} color={"#555"} />;
+        return <ArrowDownRight className={"sliceButton"} size={26} />;
       case "down left":
-        return <ArrowDownLeft size={24} color={"#555"} />;
+        return <ArrowDownLeft className={"sliceButton"} size={26} />;
       default:
         return null;
     }
@@ -33,6 +33,7 @@ export default function ArrowButton(props: {
 
   return (
     <button
+      className={"sliceButton"}
       onClick={() => {
         props.onClick(props.sliceIndex);
       }}
