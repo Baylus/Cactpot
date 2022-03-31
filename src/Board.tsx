@@ -3,35 +3,8 @@ import "./styles.css";
 import Button from "./Button";
 import ArrowButton from "./ArrowButton";
 
-// Calculate the score for the player based on the board values and slice choice
-// Uses static and sporatic list of values for different slice sum value
-function calculateScore(boardValues: number[], slice: number): number {
-  const scoreValues = [
-    10000,
-    36,
-    720,
-    360,
-    80,
-    252,
-    108,
-    72,
-    54,
-    180,
-    72,
-    180,
-    119,
-    36,
-    306,
-    1080,
-    144,
-    1800,
-    3600
-  ];
-  let score = 0;
-  console.log("Calculating score for slice " + slice);
-
-  // Lets just go with a dumb solution right now.
-  // chosenSquares - list of board indexes relevant to the slice chosen.
+// Find the array of buttons that were sliced. 0 based
+function findSliced(slice: number): number[] {
   let chosenSquares: number[] = [];
   switch (slice) {
     case 1:
@@ -69,6 +42,40 @@ function calculateScore(boardValues: number[], slice: number): number {
     default:
       console.log("Wrong slice chosen. This shouldn't happen");
   }
+  return chosenSquares;
+}
+
+// Calculate the score for the player based on the board values and slice choice
+// Uses static and sporatic list of values for different slice sum value
+function calculateScore(boardValues: number[], slice: number): number {
+  const scoreValues = [
+    10000,
+    36,
+    720,
+    360,
+    80,
+    252,
+    108,
+    6868,
+    54,
+    180,
+    72,
+    180,
+    119,
+    36,
+    306,
+    1080,
+    144,
+    1800,
+    3600
+  ];
+  let score = 0;
+  console.log("Calculating score for slice " + slice);
+
+  // Lets just go with a dumb solution right now.
+  // chosenSquares - list of board indexes relevant to the slice chosen.
+  let chosenSquares: number[] = findSliced(slice);
+
   const mapBoardValue = (index: number) => {
     return boardValues[index];
   };
@@ -115,6 +122,8 @@ export default function Board(props: {
   // This is currently for the purpose of revealing the first
   // button easier, as well as making all the buttons visible
   // after game is over. This maybe could be done easier, but for now we use this
+  const [sliced, setSliced] = useState([] as number[]);
+  // let sliced: number[] = [];
 
   const initRevealed = () => {
     let initRev: boolean[] = Array(9).fill(false);
@@ -144,12 +153,18 @@ export default function Board(props: {
     props.finishPlaying();
     // Update all the buttons to reveal themselves
     setRevealed(Array(9).fill(true));
+
+    let sList = findSliced(slice);
+    setSliced(sList);
+    console.log("our sliced: " + sliced);
   };
 
+  // boardValues
   useEffect(() => {
     console.log("boardValues have been updated");
   }, [boardValues]);
 
+  // score
   useEffect(() => {
     console.log("Adding new score(" + score + ") to high scores");
     if (score) {
@@ -157,6 +172,7 @@ export default function Board(props: {
     }
   }, [score]);
 
+  // props.boardValues
   useEffect(() => {
     // console.log("props boardValues have been updated");
     setChoices([]);
@@ -242,6 +258,7 @@ export default function Board(props: {
               value={value}
               disable={choices.length >= 3}
               revealed={revealed[index]}
+              sliced={!props.playing && sliced.includes(index)}
             />
           );
         })}

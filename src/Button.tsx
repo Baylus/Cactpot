@@ -8,11 +8,12 @@ export default function Button(props: {
   disable: boolean;
   index: Number;
   addChoice: Function;
+  sliced: boolean;
 }) {
   // TODO: Make buttons have an outline once the slice has been chosen. Can pass in a "border" prop to change the class name of the button to match the defined button look
   return (
     <button
-      className={"button"}
+      className={"button" + (props.sliced ? " sliced" : "")}
       onClick={() => {
         // Don't let button add choice again if its already been revealed
         if (!props.revealed) {
@@ -29,5 +30,6 @@ export default function Button(props: {
 Button.defaultProps = {
   value: 0,
   revealed: false,
-  disabled: false
+  disabled: false,
+  sliced: false
 };
