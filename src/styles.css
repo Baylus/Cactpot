@@ -7,7 +7,7 @@
   position: relative;
   height: 208px;
   width: 240px;
-  background-color: #f0f0f0;
+  background-color: #854c0b1c;
 }
 
 .smallBoard {
@@ -32,6 +32,7 @@
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Probably not necessary anymore. I already have what I am looking for */
 .slicedButton {
   /* Try to learn how to use less here to remove repeated code */
   /* .button(); */
@@ -91,23 +92,37 @@
   justify-content: center;
 }
 
-/* Some High score table stuff */
-table {
-  border-collapse: collapse;
-  width: 100%;
+.replayButton {
+  font-family: "Fredoka", sans-serif;
+  font-size: 22px;
+  font-weight: 500;
+  color: #333;
+  margin: 8px;
+  border: none;
+  background-color: #8fc7fc;
+  border-radius: 6px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-th,
-td {
+/* Some High score table stuff */
+.scoresTable {
+  border-collapse: collapse;
+  width: 25%;
+}
+
+.scoresTable th,
+.scoresTable td {
   text-align: left;
   padding: 8px;
+  width: 50%;
+  /* width: 12px; */
 }
 
-tr:nth-child(even) {
-  background-color: #f2f2f2;
+.scoresTable tr:nth-child(even) {
+  background-color: #97cfc57a;
 }
 
-th {
-  background-color: #04aa6d;
+.scoresTable th {
+  background-color: #53d1b2;
   color: white;
 }

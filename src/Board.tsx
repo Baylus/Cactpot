@@ -2,6 +2,36 @@ import React, { useEffect, useState } from "react";
 import "./styles.css";
 import Button from "./Button";
 import ArrowButton from "./ArrowButton";
+// import scoreValues from "./Game";
+
+// IMPROVEMENT: I really want all this scoring stuff to be moved out of the board, as it makes more logical sense to be kept in the "Game" class. Try and see if theres a good way to do that.
+// Really need to make this improvement, since we need a copy of the score values for the scores table in the game itself.
+// This wouldnt even be that hard to do, and probably should be done anyway, since the only time score is needed in this is to display the current score after the board.
+// 6 is the smallest score achievable, as its a combo of 1,2,3
+const MINIMUM_SCORE: number = 6;
+
+// Values for scores for the game. This is 0 indexed, but should be noted that the first is actually 6, since its the lowest score achievable
+const scoreValues: number[] = [
+  10000,
+  36,
+  720,
+  360,
+  80,
+  252,
+  108,
+  6868,
+  54,
+  180,
+  72,
+  180,
+  119,
+  36,
+  306,
+  1080,
+  144,
+  1800,
+  3600
+];
 
 // Find the array of buttons that were sliced. 0 based
 function findSliced(slice: number): number[] {
@@ -48,27 +78,6 @@ function findSliced(slice: number): number[] {
 // Calculate the score for the player based on the board values and slice choice
 // Uses static and sporatic list of values for different slice sum value
 function calculateScore(boardValues: number[], slice: number): number {
-  const scoreValues = [
-    10000,
-    36,
-    720,
-    360,
-    80,
-    252,
-    108,
-    6868,
-    54,
-    180,
-    72,
-    180,
-    119,
-    36,
-    306,
-    1080,
-    144,
-    1800,
-    3600
-  ];
   let score = 0;
   console.log("Calculating score for slice " + slice);
 
@@ -87,8 +96,8 @@ function calculateScore(boardValues: number[], slice: number): number {
   let sliceSum: number = sliceValues.reduce((x, y) => x + y);
 
   // console.log("Our slice sum is: " + sliceSum);
-  // We have to subtract 6 from the sum, since thats the minimum score you can achieve, and where the score array begins
-  score = scoreValues[sliceSum - 6];
+  // We have to subtract the minimum score from the sum since thats where the array begins
+  score = scoreValues[sliceSum - MINIMUM_SCORE];
 
   // console.log("Our score is: " + score);
   if (score === undefined) {
@@ -189,9 +198,8 @@ export default function Board(props: {
   // should be able to be mapped if this is used. Just make
   // sure that I document which indexes correspond to which
   // buttons.
-  //
-  // We would need to make the slice buttons use a more iterative construction, or theres
-  // really not a ton of benefit from being able to reduce the static assignment of indexes
+  // IMPROVEMENT: On further thinking, lets do it iterative. Any babies that dont like me removing
+  // the repeated code and increasing readability, at the cost of complete clarity, can cry to somebody else.
   // let sliceIndex = 1;
 
   return (
