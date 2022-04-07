@@ -110,8 +110,6 @@ function calculateScore(boardValues: number[], slice: number): number {
   return score;
 }
 
-// TODO: Extract this stuff into a board class and make this class represent the whole game, so that the user can keep replaying the game.
-
 export default function Board(props: {
   boardValues: number[];
   logScore: Function;
@@ -123,7 +121,6 @@ export default function Board(props: {
   // we use it to disable the buttons to prevent the player
   // from choosing more than 3, so this can be simplified
   const [choices, setChoices] = useState([] as number[]);
-  // const [playing, setPlaying] = useState(true as boolean);
   const [score, setScore] = useState(0 as number);
   const [boardValues, setBoardValues] = useState(props.boardValues as number[]);
   // Lets use the choices to manage a revealed array to make it easier to reveal the buttons
@@ -132,7 +129,6 @@ export default function Board(props: {
   // button easier, as well as making all the buttons visible
   // after game is over. This maybe could be done easier, but for now we use this
   const [sliced, setSliced] = useState([] as number[]);
-  // let sliced: number[] = [];
 
   const initRevealed = () => {
     let initRev: boolean[] = Array(9).fill(false);
@@ -158,28 +154,31 @@ export default function Board(props: {
   };
 
   const chooseSlice = (slice: number) => {
-    setScore(calculateScore(props.boardValues, slice));
-    props.finishPlaying();
+    let newScore = calculateScore(props.boardValues, slice);
+    setScore(newScore);
+
+    // I used to update the score by using "useEffect" to update whenever score was updated, but I endeed up
+    // Changing how we update the scores in the game to do it here, because I was having issues
+    // with the sequence of updates that was making the score flash the old score
+    // for a brief second because playing state was getting updated first.
+    // This is also a bit more explicit on what is happening, so its not so confusing
+    // what order things (and where) things are getting done.
+    props.logScore(newScore);
+
     // Update all the buttons to reveal themselves
     setRevealed(Array(9).fill(true));
 
     let sList = findSliced(slice);
     setSliced(sList);
     console.log("our sliced: " + sliced);
+
+    props.finishPlaying();
   };
 
   // boardValues
   useEffect(() => {
     console.log("boardValues have been updated");
   }, [boardValues]);
-
-  // score
-  useEffect(() => {
-    console.log("Adding new score(" + score + ") to high scores");
-    if (score) {
-      props.logScore(score);
-    }
-  }, [score]);
 
   // props.boardValues
   useEffect(() => {
@@ -203,8 +202,8 @@ export default function Board(props: {
   // let sliceIndex = 1;
 
   return (
-    <div className={"board"}>
-      <div className={"topSliceButtons"}>
+    <div id={"board"}>
+      <div id={"topSliceButtons"}>
         <ArrowButton
           direction={"down right"}
           onClick={chooseSlice}
@@ -236,7 +235,7 @@ export default function Board(props: {
           disabled={!props.playing}
         />
       </div>
-      <div className={"leftSliceButtons"}>
+      <div id={"leftSliceButtons"}>
         <ArrowButton
           direction={"right"}
           onClick={chooseSlice}
@@ -256,7 +255,7 @@ export default function Board(props: {
           disabled={!props.playing}
         />
       </div>
-      <div className={"smallBoard"}>
+      <div id={"smallBoard"}>
         {boardValues.map((value, index) => {
           return (
             <Button
@@ -271,7 +270,6 @@ export default function Board(props: {
           );
         })}
       </div>
-      <div>{!props.playing ? "Your score: " + score : null}</div>
     </div>
   );
 }

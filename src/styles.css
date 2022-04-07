@@ -3,14 +3,24 @@
   text-align: center;
 }
 
-.board {
+/* Overall container */
+#container {
+  height: 100%;
+  width: 100%;
+}
+
+#board {
   position: relative;
+  /* CONSIDER: Could make the game board sticky to let the player still make decisions while they scroll the score board. This would be weird when including the other elements we have loaded, but might be interesting */
+  /* position: sticky */
   height: 208px;
   width: 240px;
   background-color: #854c0b1c;
 }
 
-.smallBoard {
+/* MAIN TILE BOARD */
+
+#smallBoard {
   position: absolute;
   bottom: 0px;
   right: 32px;
@@ -32,38 +42,20 @@
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Probably not necessary anymore. I already have what I am looking for */
-.slicedButton {
-  /* Try to learn how to use less here to remove repeated code */
-  /* .button(); */
-  /* Button stuff that should be extrapolated */
-  font-family: "Fredoka", sans-serif;
-  font-size: 20px;
-  font-weight: 500;
-  color: #333;
-  height: 40px;
-  width: 40px;
-  margin: 8px;
-  border: none;
-  background-color: #ffe17d;
-  border-radius: 6px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-
-  /* Try to add a red border to show which buttons we chose. Maybe consider doing the same for the arrow chosen */
-}
-
-.sliced {
-  /* Apparently this is already a thing if we just append this sliced property to the button */
-  border: 2px solid rgba(226, 25, 25, 0.733);
-}
-
 .button:hover {
   background-color: #ffe695;
   box-shadow: 0px 8px 12px #cfb6621a;
   transform: translateY(-3px) scale(1.1);
   transition: translateY 0.3s ease-in-out, scale 0.3s ease-in-out;
 }
-/* TODO: Make a sliced button to show which choices the user made */
+
+/* ####################### Slicing stuff ######################### */
+
+.sliced {
+  /* Apparently this is already a thing if we just append this sliced property to the button */
+  border: 2px solid rgba(226, 25, 25, 0.733);
+}
+
 .sliceButton {
   color: #555;
   background-color: #cedd6f;
@@ -72,7 +64,7 @@
   border-radius: 6px;
 }
 
-.topSliceButtons {
+#topSliceButtons {
   /* width: 103%; */
   width: calc(100% + 8px);
   height: 40px;
@@ -82,7 +74,7 @@
   justify-content: center;
 }
 
-.leftSliceButtons {
+#leftSliceButtons {
   width: 40px;
   height: calc(100% - 40px);
   display: flex;
@@ -92,7 +84,9 @@
   justify-content: center;
 }
 
-.replayButton {
+/* Replay button (Make misc section) */
+
+#replayButton {
   font-family: "Fredoka", sans-serif;
   font-size: 22px;
   font-weight: 500;
@@ -104,25 +98,36 @@
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* ######################### SCORE TABLE ############################ */
+
 /* Some High score table stuff */
-.scoresTable {
+#scoresTable {
   border-collapse: collapse;
   width: 25%;
+  position: relative;
+  /* display: inline-grid;
+  grid-template-columns: repeat(3, 1fr); */
 }
 
-.scoresTable th,
-.scoresTable td {
+#scoresTable th,
+#scoresTable td {
   text-align: left;
   padding: 8px;
   width: 50%;
   /* width: 12px; */
 }
 
-.scoresTable tr:nth-child(even) {
+#scoresTable tr:nth-child(even) {
   background-color: #97cfc57a;
 }
 
-.scoresTable th {
+#scoresTable th {
   background-color: #53d1b2;
   color: white;
+}
+
+/* RULES STUFF */
+.Rules {
+  position: relative;
+  float: left;
 }

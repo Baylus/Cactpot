@@ -7,7 +7,7 @@ Cactpot is a minigame included in the MMORPG Final Fantasy XIV.
 
 The rules are simple. You start with one of the 9 board squares revealed, and you can reveal 3 more squares during play. After that, you must choose a slice (horizontal, vertical, or diagonal) of the board. Once you have, all sqaures will reveal their values, and the sum of the slice you chose will determine your score.
 
-The scores are not directly equivalent to the sum of the values of the slice, so it isn't just a matter of picking the slice with the highest value. This means there is more statistical probability that go into maximizing your score.
+The scores are not directly equivalent to the sum of the values of the slice, so it isn't just a matter of picking the slice with the highest value. This means there is more statistical probability that goes into maximizing your score.
 
 The scores are:
 6: 10000

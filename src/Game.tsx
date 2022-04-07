@@ -76,7 +76,7 @@ export default function Game(props: {}) {
   //    Lets make it so that the rules and score table are to the right of the main board table. In that order of each other.
   // FIX: Make the container behind the board either invisible or bigger to include the right-most top slice button.
   return (
-    <div className={"container"}>
+    <div id={"container"}>
       <Board
         boardValues={currentBoardValues}
         logScore={addScore}
@@ -85,9 +85,13 @@ export default function Game(props: {}) {
           setPlaying(false);
         }}
       />
-      <p />
+
+      <div className={"RecentScore"}>
+        {"Your score: " +
+          (scores.length > 0 && !playing ? scores[scores.length - 1] : "")}
+      </div>
       <button
-        className={"replayButton"}
+        id={"replayButton"}
         disabled={playing}
         onClick={() => {
           console.log("Restarting Game");
@@ -103,20 +107,35 @@ export default function Game(props: {}) {
       <div>
         {"Average Score: " + (scores.length > 0 ? averageScores(scores) : "")}
       </div>
-      <table className="scoresTable">
-        <tr>
-          <th>Slice Total</th>
-          <th>Score</th>
-        </tr>
-        {scoreValues.map((value, index) => {
-          return (
-            <tr key={index}>
-              <td>{index + MINIMUM_SCORE}</td>
-              <td>{value}</td>
-            </tr>
-          );
-        })}
+      <table id="scoresTable">
+        <thead>
+          <tr>
+            <th>Slice Total</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          {scoreValues.map((value, index) => {
+            return (
+              <tr key={index}>
+                <td>{index + MINIMUM_SCORE}</td>
+                <td>{value}</td>
+              </tr>
+            );
+          })}
+        </tbody>
       </table>
+      <section className={"Rules"}>
+        <h1>Rules</h1>
+        <ol>
+          <li>Reveal the values of up to 3 yellow tiles</li>
+          <li>Choose a slice of three tiles using the arrow buttons</li>
+          <li>
+            All the tiles will reveal their values. The sum of the slice you
+            chose will determine the score you get.
+          </li>
+        </ol>
+      </section>
     </div>
   );
 }
