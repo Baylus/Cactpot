@@ -28,7 +28,7 @@
   grid-template-columns: repeat(3, 1fr);
 }
 
-.button {
+.square {
   font-family: "Fredoka", sans-serif;
   font-size: 20px;
   font-weight: 500;
@@ -42,7 +42,7 @@
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.button:hover {
+.square:hover {
   background-color: #ffe695;
   box-shadow: 0px 8px 12px #cfb6621a;
   transform: translateY(-3px) scale(1.1);
