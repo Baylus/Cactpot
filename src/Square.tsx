@@ -1,7 +1,7 @@
 import * as React from "react";
 
 // This button comprises the main 3x3 grid buttons
-export default function Button(props: {
+export default function Square(props: {
   value: Number;
   // initRevealed: boolean;
   revealed: boolean;
@@ -10,12 +10,11 @@ export default function Button(props: {
   addChoice: Function;
   sliced: boolean;
 }) {
-  // TODO: Make buttons have an outline once the slice has been chosen. Can pass in a "border" prop to change the class name of the button to match the defined button look
   return (
     <button
-      className={"button" + (props.sliced ? " sliced" : "")}
+      className={"square" + (props.sliced ? " sliced" : "")}
       onClick={() => {
-        // Don't let button add choice again if its already been revealed
+        // Don't let square add choice again if its already been revealed
         if (!props.revealed) {
           props.addChoice(props.index);
         }
@@ -27,7 +26,7 @@ export default function Button(props: {
   );
 }
 
-Button.defaultProps = {
+Square.defaultProps = {
   value: 0,
   revealed: false,
   disabled: false,

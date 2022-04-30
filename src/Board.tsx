@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./styles.css";
-import Button from "./Button";
+import Square from "./Square";
 import ArrowButton from "./ArrowButton";
 // import scoreValues from "./Game";
 
@@ -33,7 +33,7 @@ const scoreValues: number[] = [
   3600
 ];
 
-// Find the array of buttons that were sliced. 0 based
+// Find the array of Squares that were sliced. 0 based
 function findSliced(slice: number): number[] {
   let chosenSquares: number[] = [];
   switch (slice) {
@@ -118,15 +118,15 @@ export default function Board(props: {
 }) {
   // List of choices the player has made by index of square
   // The choices that the player has made don't matter, but
-  // we use it to disable the buttons to prevent the player
+  // we use it to disable the Squares to prevent the player
   // from choosing more than 3, so this can be simplified
   const [choices, setChoices] = useState([] as number[]);
   const [score, setScore] = useState(0 as number);
   const [boardValues, setBoardValues] = useState(props.boardValues as number[]);
-  // Lets use the choices to manage a revealed array to make it easier to reveal the buttons
+  // Lets use the choices to manage a revealed array to make it easier to reveal the Squares
   //
   // This is currently for the purpose of revealing the first
-  // button easier, as well as making all the buttons visible
+  // Square easier, as well as making all the Squares visible
   // after game is over. This maybe could be done easier, but for now we use this
   const [sliced, setSliced] = useState([] as number[]);
 
@@ -138,7 +138,7 @@ export default function Board(props: {
 
   const [revealed, setRevealed] = useState(initRevealed());
   // Easy revealed update
-  const revealButton = (index: number) => {
+  const revealSquare = (index: number) => {
     let newRevealed: boolean[] = revealed;
     newRevealed[index] = true;
     setRevealed([...newRevealed]);
@@ -149,8 +149,8 @@ export default function Board(props: {
     newArray.push(index);
     setChoices([...newArray]);
 
-    // Update the revealed button in the array
-    revealButton(index);
+    // Update the revealed Square in the array
+    revealSquare(index);
   };
 
   const chooseSlice = (slice: number) => {
@@ -165,7 +165,7 @@ export default function Board(props: {
     // what order things (and where) things are getting done.
     props.logScore(newScore);
 
-    // Update all the buttons to reveal themselves
+    // Update all the Squares to reveal themselves
     setRevealed(Array(9).fill(true));
 
     let sList = findSliced(slice);
@@ -258,7 +258,7 @@ export default function Board(props: {
       <div id={"smallBoard"}>
         {boardValues.map((value, index) => {
           return (
-            <Button
+            <Square
               addChoice={addChoice}
               key={index}
               index={index}
