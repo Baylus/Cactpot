@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./styles.css";
 import Square from "./Square";
-import ArrowButton from "./ArrowButton";
-// import scoreValues from "./Game";
+import { TopSliceBar, LeftSliceBar } from "./SliceButtonBars";
 
 // IMPROVEMENT: I really want all this scoring stuff to be moved out of the board, as it makes more logical sense to be kept in the "Game" class. Try and see if theres a good way to do that.
 // Really need to make this improvement, since we need a copy of the score values for the scores table in the game itself.
@@ -34,6 +33,7 @@ const scoreValues: number[] = [
 ];
 
 // Find the array of Squares that were sliced. 0 based
+// Might be able to just move this into the sliced button bar file. Would help clean this file up some more
 function findSliced(slice: number): number[] {
   let chosenSquares: number[] = [];
   switch (slice) {
@@ -203,58 +203,8 @@ export default function Board(props: {
 
   return (
     <div id={"board"}>
-      <div id={"topSliceButtons"}>
-        <ArrowButton
-          direction={"down right"}
-          onClick={chooseSlice}
-          sliceIndex={1}
-          disabled={!props.playing}
-        />
-        <ArrowButton
-          direction={"down"}
-          onClick={chooseSlice}
-          sliceIndex={2}
-          disabled={!props.playing}
-        />
-        <ArrowButton
-          direction={"down"}
-          onClick={chooseSlice}
-          sliceIndex={3}
-          disabled={!props.playing}
-        />
-        <ArrowButton
-          direction={"down"}
-          onClick={chooseSlice}
-          sliceIndex={4}
-          disabled={!props.playing}
-        />
-        <ArrowButton
-          direction={"down left"}
-          onClick={chooseSlice}
-          sliceIndex={5}
-          disabled={!props.playing}
-        />
-      </div>
-      <div id={"leftSliceButtons"}>
-        <ArrowButton
-          direction={"right"}
-          onClick={chooseSlice}
-          sliceIndex={6}
-          disabled={!props.playing}
-        />
-        <ArrowButton
-          direction={"right"}
-          onClick={chooseSlice}
-          sliceIndex={7}
-          disabled={!props.playing}
-        />
-        <ArrowButton
-          direction={"right"}
-          onClick={chooseSlice}
-          sliceIndex={8}
-          disabled={!props.playing}
-        />
-      </div>
+      <TopSliceBar chooseSlice={chooseSlice} disabled={!props.playing} />
+      <LeftSliceBar chooseSlice={chooseSlice} disabled={!props.playing} />
       <div id={"smallBoard"}>
         {boardValues.map((value, index) => {
           return (
