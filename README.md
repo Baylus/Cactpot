@@ -1,8 +1,5 @@
 # Cactpot
 
-Created with CodeSandbox
-https://codesandbox.io/s/cactpot-4mds62
-
 Cactpot is a minigame included in the MMORPG Final Fantasy XIV.
 
 The rules are simple. You start with one of the 9 board squares revealed, and you can reveal 3 more squares during play. After that, you must choose a slice (horizontal, vertical, or diagonal) of the board. Once you have, all sqaures will reveal their values, and the sum of the slice you chose will determine your score.
@@ -29,3 +26,6 @@ The scores are:
 - 22: 144
 - 23: 1800
 - 24: 3600
+
+Created with CodeSandbox
+https://codesandbox.io/s/cactpot-4mds62
